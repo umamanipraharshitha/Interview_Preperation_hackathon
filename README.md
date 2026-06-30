@@ -1,61 +1,234 @@
-# NextGen AI Interview & Hiring Platform
+# 🚀 NextGen AI Interview Practice Platform
 
-A comprehensive, distributed AI-powered platform designed to empower both candidates and recruiters. It features interactive, voice-enabled AI practice interviews to help candidates prepare, alongside automated resume screening and evaluation with a tamper-proof blockchain audit layer for recruiters.
+<p align="center">
 
-## 🚀 Overview
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-009688?style=for-the-badge&logo=fastapi)
+![React](https://img.shields.io/badge/React-Frontend-61DAFB?style=for-the-badge&logo=react)
+![Flutter](https://img.shields.io/badge/Flutter-Mobile-02569B?style=for-the-badge&logo=flutter)
+![Gemini](https://img.shields.io/badge/Google-Gemini-orange?style=for-the-badge&logo=google)
+![Redis](https://img.shields.io/badge/Redis-Cache-red?style=for-the-badge&logo=redis)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-blue?style=for-the-badge&logo=postgresql)
+![Qdrant](https://img.shields.io/badge/Qdrant-Vector_DB-purple?style=for-the-badge)
 
-This platform modernizes the hiring process from both sides. For candidates, it offers a real-time, voice-enabled **AI Practice Interview** module (built with React) that listens to spoken answers, asks context-aware follow-up questions, and provides detailed feedback and scoring. For recruiters, it parses high volumes of resumes and evaluates candidates asynchronously using AI (Gemini LLM). It ensures security and immutability by storing cryptographic hashes of all candidate evaluations on a blockchain smart contract. When a candidate meets the selection criteria, their details are synced to a Google Sheet and they receive an automated email from `mpraharshitha2006@gmail.com`.
+</p>
 
-## ✨ Features
+---
 
-- **Voice-Enabled AI Practice Interviews**: Real-time conversational AI interviewer that listens via microphone, asks context-aware questions based on your resume, and provides actionable feedback.
-- **AI-Powered Evaluation**: Generates ATS scores, technical scores, and communication ratings using Gemini LLM.
-- **Asynchronous Processing**: Uses Redis and Celery/Worker nodes to process 500+ resumes/minute without blocking the API.
-- **Tamper-Proof Audit Trail**: Hashes evaluation results (SHA-256) and stores them on a blockchain to ensure hiring decisions are verifiable and immutable.
-- **Semantic Search**: Integrates Qdrant Vector DB for fast and accurate resume embeddings and semantic candidate matching.
-- **Automated Reporting & CRM**: Automatically updates a live Google Sheet via the Google Sheets API with candidate scores.
-- **Automated Email Notifications**: Automatically sends an acceptance email from `mpraharshitha2006@gmail.com` via SMTP/Gmail API for candidates scoring above a defined threshold.
-- **High Performance**: Achieves 200–400ms API response times and < 1 sec AI evaluation latency for cached profiles.
+## 📖 Overview
 
-## 🏗️ System Architecture
+**NextGen AI Interview Practice Platform** is an enterprise-inspired AI-powered interview preparation platform that simulates realistic technical interviews through conversational AI. The platform generates personalized interview questions from uploaded resumes, conducts interactive voice-enabled interview sessions, evaluates candidate responses using Large Language Models, and delivers comprehensive performance analytics with actionable improvement recommendations.
 
-- **API Gateway (FastAPI)**: Handles JWT Authentication, Routing, and Rate Limiting (e.g., 100 req/min per user).
-- **Services**:
-  - **Resume Service**: Upload, text extraction, structured data generation.
-  - **Interview Service**: Handles real-time AI Q&A flow with context and history management.
-  - **AI Evaluation Service**: Gemini integration for candidate scoring and final interview feedback.
-- **Queue/Worker Layer**: Redis & Celery for handling heavy background AI jobs.
-- **Database Layer**:
-  - **PostgreSQL**: Primary DB for users, chat histories, results, and logs.
-  - **Qdrant**: Vector database for resume embeddings.
-  - **Redis**: Caching and queue storage.
-- **Integration Layer**:
-  - **Reporting Module**: Synchronizes candidate data to Google Sheets using batched updates.
-  - **Notification Module**: Triggers asynchronous email alerts via SMTP.
-- **Blockchain Audit Layer**: Smart contract (Solidity/Ethereum or Polygon) storing SHA-256 hashes of evaluation data.
+Designed using a scalable microservice-oriented architecture, the platform integrates FastAPI, React, Flutter, Google Gemini, Redis, Celery, PostgreSQL, and Qdrant to deliver a seamless, intelligent, and responsive interview experience.
 
-## 📊 System Metrics
+---
 
-- **Throughput**: 500+ resumes/min processed asynchronously.
-- **API Latency**: 200–400ms API response time.
-- **AI Latency**: < 1 sec AI evaluation latency for cached data; 3-5 sec for cold starts.
-- **Scalability**: Supports 10,000+ candidate records and 300+ concurrent interview sessions.
-- **Rate Limiting (Internal)**: Gateway enforced at 100 requests per minute per IP/User.
+# ✨ Core Features
 
-## 💻 Tech Stack
+| Feature | Description |
+|----------|-------------|
+| 🎤 Voice-Based Interviews | Conducts interactive AI interviews using Web Speech API. |
+| 📄 Resume Intelligence | Parses resumes and generates personalized interview questions. |
+| 🤖 AI Question Generation | Generates dynamic follow-up questions using Google Gemini. |
+| 🧠 Context-Aware Conversations | Maintains conversation history for natural interview flow. |
+| 📊 AI Performance Evaluation | Evaluates technical knowledge, communication, and confidence. |
+| 📈 Detailed Analytics | Generates interview reports with strengths and improvement suggestions. |
+| ⚡ Background Processing | Uses Redis & Celery for asynchronous resume processing and AI evaluation. |
+| 🔍 Semantic Resume Search | Utilizes Qdrant Vector Database for contextual retrieval. |
+| 🌐 Cross Platform | Supports both React Web and Flutter Mobile applications. |
 
-- **Backend**: Python, FastAPI, Celery
-- **Databases**: PostgreSQL, Qdrant (Vector DB), Redis
-- **AI/LLM**: Google Gemini API
-- **External APIs**: Google Sheets API, Web Speech API (Voice), Gmail API / SMTP
-- **Blockchain**: Solidity, Web3.js / Ethers.js
-- **Frontend (Web)**: React.js, Vite, CSS Modules
-- **Frontend (Mobile)**: Flutter
+---
 
-## 🚀 Request Flow (Practice Interview)
+# 🏗 System Architecture
 
-1. **Start**: User uploads a resume and initiates a practice interview via the React Web App.
-2. **Interact**: User speaks their answer using the microphone (Web Speech API). The text is sent to the Interview Service.
-3. **Context-Aware Response**: The backend retrieves chat history, passes it to Gemini LLM, and returns a tailored follow-up question.
-4. **Evaluate**: User clicks "End & Evaluate". The system sends the full transcript to the AI Evaluation Engine.
-5. **Feedback**: The engine generates detailed suggestions, technical scores, and communication scores, which are saved to PostgreSQL and displayed to the user.
+```
+                        React Web / Flutter
+                                │
+                                ▼
+                      FastAPI REST API Gateway
+                                │
+        ┌───────────────┬───────────────┬───────────────┐
+        ▼               ▼               ▼
+ Resume Service   Interview Service   Evaluation Service
+        │               │               │
+        └───────────────┼───────────────┘
+                        ▼
+                 Google Gemini API
+                        │
+        ┌───────────────┼───────────────┐
+        ▼               ▼               ▼
+   PostgreSQL       Redis Queue      Qdrant Vector DB
+```
+
+---
+
+# ⚙ System Modules
+
+| Module | Responsibility | Technologies |
+|----------|---------------|--------------|
+| Authentication | Secure JWT-based authentication | FastAPI, JWT |
+| Resume Service | Resume upload, parsing, embedding generation | Python, PyMuPDF |
+| Interview Engine | AI conversation management | FastAPI |
+| AI Evaluation Engine | Interview assessment & feedback | Gemini API |
+| Background Workers | Resume processing & evaluation | Celery, Redis |
+| Vector Search | Semantic resume retrieval | Qdrant |
+| Database | Interview records & reports | PostgreSQL |
+
+---
+
+# 🔄 AI Interview Workflow
+
+```
+Resume Upload
+      │
+      ▼
+Resume Parsing
+      │
+      ▼
+Resume Embedding Generation
+      │
+      ▼
+Personalized Question Generation
+      │
+      ▼
+Voice-Based AI Interview
+      │
+      ▼
+Context-Aware Follow-up Questions
+      │
+      ▼
+Interview Completion
+      │
+      ▼
+AI Evaluation Engine
+      │
+      ▼
+Performance Report Generation
+      │
+      ▼
+Dashboard Visualization
+```
+
+---
+
+# 📊 Performance Metrics
+
+| Metric | Value |
+|---------|-------|
+| API Response Time | **200–400 ms** |
+| Cached AI Response | **< 1 sec** |
+| Resume Parsing | **1–3 sec** |
+| Concurrent Interview Sessions | **300+** |
+| Vector Search Latency | **< 100 ms** |
+| Background Processing | **Asynchronous** |
+
+---
+
+# 💻 Technology Stack
+
+| Category | Technologies |
+|-----------|-------------|
+| Backend | Python, FastAPI |
+| Frontend | React.js, Vite |
+| Mobile | Flutter |
+| AI/LLM | Google Gemini |
+| Database | PostgreSQL |
+| Vector Database | Qdrant |
+| Cache | Redis |
+| Task Queue | Celery |
+| Voice Recognition | Web Speech API |
+| Authentication | JWT |
+| Deployment | Docker |
+
+---
+
+# 📂 Project Structure
+
+```
+NextGen-AI-Interview-Platform
+│
+├── backend/
+│   ├── routers/
+│   ├── database/
+│   ├── workers/
+│   ├── core/
+│   └── main.py
+│
+├── frontend_react/
+│
+├── frontend_flutter/
+│
+├── cloud_integrations/
+│
+├── docs/
+│
+└── README.md
+```
+
+---
+
+# 🧠 AI Evaluation Metrics
+
+| Evaluation Category | Description |
+|--------------------|-------------|
+| Technical Knowledge | Understanding of concepts and problem solving |
+| Communication Skills | Clarity, fluency, articulation |
+| Confidence | Response confidence and presentation |
+| Answer Quality | Completeness and correctness |
+| Improvement Suggestions | Personalized recommendations |
+| Overall Interview Score | Comprehensive AI-generated assessment |
+
+---
+
+# 🔐 Security Features
+
+- JWT Authentication
+- Secure REST APIs
+- Background Task Isolation
+- Environment Variable Configuration
+- Resume Data Protection
+- Input Validation
+- Exception Handling
+
+---
+
+# 🚀 Future Enhancements
+
+- 🎥 AI Video Interviews
+- 😊 Facial Expression Analysis
+- 🌍 Multi-Language Interviews
+- 📱 Mobile Push Notifications
+- 📈 Personalized Learning Roadmaps
+- 🏆 AI Mock Coding Interviews
+- 📊 Advanced Analytics Dashboard
+
+---
+
+# ⭐ Key Highlights
+
+| Capability | Status |
+|------------|--------|
+| AI Resume Parsing | ✅ |
+| Voice-Based Interviews | ✅ |
+| Context-Aware AI Questions | ✅ |
+| AI Interview Evaluation | ✅ |
+| Semantic Resume Search | ✅ |
+| Asynchronous Processing | ✅ |
+| Cross Platform Support | ✅ |
+| Performance Analytics | ✅ |
+
+---
+
+## 🌟 Why NextGen AI Interview Practice Platform?
+
+This platform leverages **Generative AI**, **Vector Search**, **Asynchronous Distributed Processing**, and **Voice-Enabled Human-AI Interaction** to create an intelligent interview preparation ecosystem. By combining contextual resume understanding with conversational AI and automated performance analytics, it delivers a realistic mock interview experience that empowers candidates to strengthen their technical expertise, communication skills, and overall interview confidence.
+
+---
+
+<p align="center">
+
+### ⭐ If you found this project useful, consider giving it a Star!
+
+**Built with ❤️ using FastAPI, React, Flutter, Google Gemini, PostgreSQL, Redis & Qdrant**
+
+</p>
