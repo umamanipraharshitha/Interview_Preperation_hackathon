@@ -1,0 +1,29 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  worker:
+    build: .
+    depends_on:
+      - redis
+    env_file:
+      - .env
+    command: celery -A workers.celery_app worker --loglevel=info
+
+  # Optional: Keep Redis in docker-compose if you don't want to use your native Windows Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+volumes:
+  redisdata:

@@ -1,0 +1,86 @@
+.upload-container {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+}
+
+.upload-header {
+  margin-bottom: 40px;
+}
+
+.upload-header h2 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.upload-header p {
+  color: var(--text-muted);
+  font-size: 1.1rem;
+}
+
+.upload-card {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.upload-icon {
+  color: var(--secondary);
+  margin-bottom: 16px;
+}
+
+.upload-zone h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  color: var(--text-main);
+}
+
+.subtext {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.upload-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+.success-state {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.success-icon {
+  color: #10b981;
+}
+
+@keyframes pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+  animation: pop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

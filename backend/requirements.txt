@@ -1,0 +1,14 @@
+fastapi[standard]
+uvicorn
+sqlalchemy
+psycopg2-binary
+celery[redis]
+qdrant-client
+google-genai
+web3
+slowapi
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+pydantic-settings
+python-dotenv
